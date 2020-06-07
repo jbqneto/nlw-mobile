@@ -1,11 +1,43 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, ImageBackground, Text, StyleSheet } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
+import { Feather as FeatherIcon } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
+
+  const navigation = useNavigation();
+
+  function handleNavigateToPoints() {
+    navigation.navigate('Points');
+  }
+
   return (
-    <View style={styles.container}>
-      <Image source={require('../../assets/logo.png')} />
-    </View>
+    <ImageBackground
+      source={require('../../assets/home-background.png')}
+      style={styles.container}
+      imageStyle={{ width: 274, height: 368 }}
+    >
+      <View style={styles.main}>
+        <Image source={require('../../assets/logo.png')} />
+        <Text style={styles.title}>Seu marketplace de coleta de resíduos</Text>
+        <Text style={styles.description}>Ajudamos pessoas a encontrar pontos de coleta de forma eficiente</Text>
+      </View>
+
+      <View style={styles.footer}>
+        <RectButton style={styles.button} onPress={handleNavigateToPoints}>
+          <View style={styles.buttonIcon}>
+            <Text>
+              <FeatherIcon name="arrow-right" color="#FFF" size={24} />
+            </Text>
+          </View>
+          <Text style={styles.buttonText}>
+            Entrar
+          </Text>
+        </RectButton>
+      </View>
+
+    </ImageBackground>
   );
 };
 
@@ -13,6 +45,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 32,
+    backgroundColor: '#f0f0f5'
   },
 
   main: {
