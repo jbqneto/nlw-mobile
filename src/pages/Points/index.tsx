@@ -1,17 +1,63 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { Feather as Icon } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import MapView, { Marker } from 'react-native-maps';
+import { SvgUri } from 'react-native-svg'
 
 const Point = () => {
+  const navigation = useNavigation();
+
+  function handleNavigate() {
+    navigation.navigate('Detail');
+  }
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity>
-        <Icon name="arrow-left" size={20} color="#34cb79" />
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={styles.container}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-left" size={20} color="#34cb79" />
+        </TouchableOpacity>
+
+        <Text style={styles.title}>Bem vindo.</Text>
+        <Text style={styles.description}>Encontre no mapa um ponto de coleta</Text>
+
+        <View style={styles.mapContainer}>
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: -27.2092052,
+              longitude: -49.6401092,
+              latitudeDelta: 0.014,
+              longitudeDelta: 0.014
+            }}
+          >
+            <Marker
+              style={styles.mapMarker}
+              onPress={handleNavigate}
+              coordinate={{
+                latitude: -27.2092052,
+                longitude: -49.6401092
+              }}>
+
+            </Marker>
+          </MapView>
+        </View>
+
+      </View>
+      <View style={styles.itemsContainer}>
+        <ScrollView
+          horizontal
+          contentContainerStyle={{ paddingHorizontal: 20 }}
+          showsHorizontalScrollIndicator={false}>
+          <TouchableOpacity style={styles.item} onPress={() => { }}>
+            <SvgUri uri="" width={42} height={42} />
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    </>
   )
 };
 
