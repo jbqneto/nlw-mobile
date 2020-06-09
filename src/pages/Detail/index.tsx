@@ -1,12 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Feather as Icon, FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, StyleSheet, TouchableOpacity, SafeAreaView, Image, Text } from 'react-native';
 import Constants from 'expo-constants';
 import { RectButton } from 'react-native-gesture-handler';
 
+import api from '../../service/api';
+
+interface Params {
+  point_id: number;
+}
+
+interface PointData {
+  point: {
+    image: string;
+    name: string;
+    email: string;
+    whatsapp: string;
+    city: string;
+    uf: string;
+  };
+  items: {
+    title: string;
+  }[];
+}
+
 const Detail = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const routeParams = route.params as Params;
+
+  const [data, setData] = useState<PointData>({} as PointData);
+
+  useEffect(() => {
+    api.get(`points/${routeParams.point_id}`).then((response) => {
+      setData(response.data);
+    }).catch((error) => {
+      console.error(error);
+    });
+  });
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -23,7 +57,7 @@ const Detail = () => {
           <FontAwesome name="whatsapp" size={20} color="#fff" />
         </RectButton>
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 
