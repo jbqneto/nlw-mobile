@@ -14,6 +14,7 @@ interface Params {
 
 interface PointData {
   point: {
+    id: number;
     image: string;
     name: string;
     email: string;
@@ -84,7 +85,7 @@ const Detail = () => {
         </RectButton>
 
         <RectButton style={styles.button} onPress={handleComposeMail}>
-          <FontAwesome name="mail" size={20} color="#fff" />
+          <FontAwesome name="mail-forward" size={20} color="#fff" />
           <Text style={styles.buttonText}>E-mail</Text>
         </RectButton>
       </View>

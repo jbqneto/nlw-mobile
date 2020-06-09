@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, ScrollView, Alert, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { Feather as Icon } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 import { SvgUri } from 'react-native-svg'
 import * as Location from 'expo-location';
@@ -24,8 +24,17 @@ interface Point {
   longitude: number;
 }
 
+interface Params {
+  uf: string;
+  city: string;
+}
+
 const Point = () => {
+  const defaultPointImg = 'https://www.editoraparatexto.com.br/assets/img/shop-icon.png';
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const params = route.params as Params;
 
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
@@ -55,17 +64,16 @@ const Point = () => {
   useEffect(() => {
     api.get('points', {
       params: {
-        city: 'João Pessoa',
-        uf: 'PB',
-        items: [1, 2, 3, 4]
+        city: params.city,
+        uf: params.uf,
+        items: selectedItems
       }
     }).then((response) => {
-      console.log(response.data);
       setPoints(response.data);
     }).catch((error) => {
       console.error(error);
     });
-  }, []);
+  }, [selectedItems]);
 
   useEffect(() => {
     api.get('items').then((response) => {
@@ -124,7 +132,7 @@ const Point = () => {
                   }}>
 
                   <View style={styles.mapMarkerContainer}>
-                    <Image style={styles.mapMarkerImage} source={{ uri: point.image }}></Image>
+                    <Image style={styles.mapMarkerImage} source={{ uri: (point.image || defaultPointImg) }}></Image>
                     <Text style={styles.mapMarkerTitle}>{point.name}</Text>
                   </View>
 
