@@ -62,7 +62,7 @@ const Detail = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={20} color="#34cb79" />
+          <Icon style={styles.backbutton} name="arrow-left" size={20} color="#34cb79" />
         </TouchableOpacity>
 
         <Image style={styles.pointImage} source={{ uri: data.point.image }} />
@@ -98,6 +98,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 32,
     paddingTop: 20,
+  },
+
+  backbutton: {
+    paddingTop: 10
   },
 
   pointImage: {
